@@ -8,5 +8,9 @@ PostService.createPost = function (title,url) {
    return postDb.create(title,url)
 };
 
+PostService.getPosts = function () {
+  return postDb.get()
+};  
+
 module.exports = PostService;
 

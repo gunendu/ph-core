@@ -7,4 +7,8 @@ PostController.create = function(title,url) {
   return postService.createPost(title,url);      
 };
 
+PostController.getPosts = function() {
+  return postService.getPosts();
+};  
+
 module.exports = PostController;
