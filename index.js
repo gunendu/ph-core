@@ -2,6 +2,7 @@ var PhApi = {};
 
 PhApi.Controllers = {
     UserController: require('./controllers/UserController'),
+    PostController: require('./controllers/PostController')
 };
 
 PhApi.Errors = {
