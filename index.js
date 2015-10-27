@@ -2,7 +2,8 @@ var PhApi = {};
 
 PhApi.Controllers = {
     UserController: require('./controllers/UserController'),
-    PostController: require('./controllers/PostController')
+    PostController: require('./controllers/PostController'),
+    CommentController: require('./controllers/CommentController')
 };
 
 PhApi.Errors = {

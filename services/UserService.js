@@ -4,12 +4,9 @@ bcrypt = require('bcrypt');
 
 var UserService = {};
 
-UserService.saveUser = function (username,email,password,firstname) {
+UserService.saveUser = function (username,email,name,id) {
    console.log("save user service");
-   return getHashedPassword(password)
-     .then(function(hash) {
-        return userdb.create(username,email,hash,firstname)
-     })  
+   return userdb.create(username,email,name,id)
 };
 
 function getHashedPassword(password) {
