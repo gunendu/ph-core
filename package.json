@@ -9,10 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.2.13",
     "bcrypt": "^0.8.5",
     "bluebird": "^2.10.2",
     "bunyan": "^1.5.1",
     "express": "^4.13.3",
+    "lwip": "0.0.8",
     "mysql": "^2.9.0"
   }
 }
