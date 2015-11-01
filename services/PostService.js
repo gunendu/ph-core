@@ -3,9 +3,9 @@ var postDb = require('../lib/post/post');
 
 var PostService = {};
 
-PostService.createPost = function (title,url,image_url) {
-   console.log("save post is called",image_url);
-   return postDb.create(title,url,image_url)
+PostService.createPost = function (user_id,product_name,title,url,image_urls) {
+   console.log("save post is called",image_urls);
+   return postDb.create(user_id,product_name,title,url,image_urls)
 };
 
 PostService.getPosts = function () {
