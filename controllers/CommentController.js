@@ -3,8 +3,8 @@ var commentService = require('../services/CommentService');
 
 var CommentController = {};
 
-CommentController.create = function(post_id,comment) {
-  return commentService.createPost(post_id,comment);      
+CommentController.create = function(post_id,comment,user_id) {
+  return commentService.createComment(post_id,comment,user_id);      
 };
 
 CommentController.getComments= function(post_id) {

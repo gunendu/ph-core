@@ -4,12 +4,12 @@ var userdb = require('../lib/user/user');
 
 var UserController = {};
 
-UserController.saveUser = function(username,email,name,id) {
+UserController.saveUser = function(username,email,name,profile_url) {
    console.log("save user is called",userService);
-   return userService.saveUser(username,email,name,id)
-     .then(function() {
-        console.log("after save");
-        return;
+   return userService.saveUser(username,email,name,profile_url)
+     .then(function(result) {
+        console.log("after save",result);
+        return result;
      })
      .catch(function(e) {
         console.log(e.stack);

@@ -3,9 +3,9 @@ var commentDb = require('../lib/comment/comment');
 
 var CommentService = {};
 
-CommentService.createPost = function (post_id,comment) {
+CommentService.createComment = function (post_id,comment,user_id) {
    console.log("save comment is called");
-   return commentDb.create(post_id,comment)
+   return commentDb.create(post_id,comment,user_id)
 };
 
 CommentService.getComments = function (post_id) {
