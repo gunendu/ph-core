@@ -4,6 +4,7 @@ bcrypt = require('bcrypt'),
 fs = Promise.promisifyAll(require('fs')),
 AWS = require('aws-sdk'),
 lwip = require('lwip');
+moment = require('moment');
 
 AWS.config.loadFromPath('./aws-credentials.json');
 
@@ -17,8 +18,10 @@ var s3Bucket = new AWS.S3({
 var UserService = {};
 
 UserService.saveUser = function (username,email,name,id) {
-   console.log("save user service");
-   return userdb.create(username,email,name,id)
+   var created_at = new Date().getTime();
+   created_at =  moment(created_at).format('YYYY-MM-DD HH:mm:ss');
+   var updated_at = moment(updated_at).format('YYYY-MM-DD HH:mm:ss');
+   return userdb.create(username,email,name,id,created_at,updated_at)
 };
 
 function getHashedPassword(password) {

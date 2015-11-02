@@ -12,11 +12,7 @@ PostController.create = function(user_id,product_name,title,url,files) {
      
   }).then(function(results) {
        console.log("results",results);
-       var image_urls = [];
-       _.each(results,function(result) {
-         image_urls.push(result.default.url);
-       })
-       image_urls = JSON.stringify(image_urls);
+       image_urls = JSON.stringify(results);
        return postService.createPost(user_id,product_name,title,url,image_urls);        
        
   })
