@@ -17,6 +17,10 @@ CommentController.votePosts = function(post_id) {
 
 CommentController.downvote = function(post_id) {
   return commentService.downvote(post_id)
+};
+
+CommentController.saveReply = function(comment_id,reply,user_id) {
+  return commentService.saveReply(comment_id,reply,user_id)
 };  
 
 module.exports = CommentController;
