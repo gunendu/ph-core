@@ -51,6 +51,17 @@ CommentService.getComments = function (post_id) {
     }) 
  };
 
+CommentService.getCommentsVote = function (post_id,response) {
+   return commentDb.getCommentsVote(post_id)
+     .then(function(result) {
+        var mergedlist = _.map(response,function(item) {
+          return _.extend(item, _.findWhere(result,{id: item.comment.id})) 
+        });
+        console.log("merged list is",mergedlist);
+        return mergedlist;  
+     })  
+ };  
+
 CommentService.upvotePost = function (post_id) {
   return commentDb.upvotePost(post_id)
 };
@@ -72,6 +83,20 @@ CommentService.saveReply = function (comment_id,reply,user_id) {
   
   return replyDb.create(data);  
 };
+
+CommentService.voteComment = function (user_id,comment_id) {
+  var data = {};
+  data.user_id = user_id;
+  data.comment_id= comment_id;
+  data.flag = 1;
+  var created_at = new Date().getTime();
+  var updated_at = new Date().getTime();
+  created_at =  moment(created_at).format('YYYY-MM-DD HH:mm:ss');
+  updated_at = moment(updated_at).format('YYYY-MM-DD HH:mm:ss');
+  data.created_at = created_at;
+  data.updated_at = updated_at;
+  return commentDb.voteComment(data)      
+};  
 
 module.exports = CommentService;
 

@@ -10,11 +10,11 @@ PostController.create = function(user_id,product_name,title,url,files) {
   return Promise.map(files,function(file) {
      return userService.uploadToS3(file)
      
-  }).then(function(results) {
-       console.log("results",results);
-       image_urls = JSON.stringify(results);
-       return postService.createPost(user_id,product_name,title,url,image_urls);        
-       
+  })
+  .then(function(results) {
+     console.log("results",results);
+     image_urls = JSON.stringify(results);
+     return postService.createPost(user_id,product_name,title,url,image_urls);     
   })
 };
 
@@ -22,12 +22,13 @@ PostController.getPosts = function() {
   return postService.getPosts();
 };
 
-PostController.votePosts = function(post_id) {
-  return postService.upvotePost(post_id) 
+PostController.votePosts = function(user_id,post_id) {
+  return postService.upvotePost(user_id,post_id) 
 };
 
-PostController.downvote = function(post_id) {
-  return postService.downvote(post_id)
+PostController.downvote = function(user_id,post_id) {
+  console.log("downvote is called");
+  return postService.downvotePost(user_id,post_id)
 };
 
 PostController.uploadImage = function(file) {

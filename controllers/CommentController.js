@@ -8,7 +8,10 @@ CommentController.create = function(post_id,comment,user_id) {
 };
 
 CommentController.getComments= function(post_id) {
-  return commentService.getComments(post_id);
+  return commentService.getComments(post_id)
+    .then(function(response) {
+       return commentService.getCommentsVote(post_id,response);       
+    })  
 };
 
 CommentController.votePosts = function(post_id) {
@@ -21,6 +24,10 @@ CommentController.downvote = function(post_id) {
 
 CommentController.saveReply = function(comment_id,reply,user_id) {
   return commentService.saveReply(comment_id,reply,user_id)
+};
+
+CommentController.voteComment = function(user_id,comment_id) {
+  return commentService.voteComment(user_id,comment_id);
 };  
 
 module.exports = CommentController;
