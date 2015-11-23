@@ -47,9 +47,9 @@ CommentService.getComments = function (post_id) {
         commentsArray.push(comment); 
         console.log("replyresponse",JSON.stringify(commentsArray[1]));
        })  
-      return commentsArray;       
+       return commentsArray;       
     }) 
- };
+};
 
 CommentService.getCommentsVote = function (post_id,response) {
    return commentDb.getCommentsVote(post_id)
