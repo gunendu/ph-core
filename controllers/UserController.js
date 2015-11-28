@@ -16,4 +16,8 @@ UserController.saveUser = function(username,email,name,profile_url) {
      })  
 };
 
+UserController.getUserUpvotedPost = function(userid) {
+  return userService.getUserUpvotedPost(userid) 
+};  
+
 module.exports = UserController;

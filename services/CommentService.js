@@ -31,7 +31,7 @@ CommentService.getComments = function (post_id) {
        _.each(uniqComments,function(uniq) {
         var replyresponse = _.map(response,function(res) {
             if(res.id == uniq.id) {
-              var reply =  _.pick(res,'reply','reply_id','reply_name');
+              var reply =  _.pick(res,'reply','reply_id','reply_name','profile_url','ruserid');
               var replyfilter = _.pick(reply,function(res) {
                  return !(_.isNull(res))
               });
@@ -41,7 +41,7 @@ CommentService.getComments = function (post_id) {
             }  
         })
         var comment = {};
-        var commentDetails = _.pick(uniq,'comment','id','name');
+        var commentDetails = _.pick(uniq,'comment','id','name','profile_url','userid');
         comment.comment = commentDetails;
         comment.reply = replyresponse;
         commentsArray.push(comment); 

@@ -136,4 +136,8 @@ UserService.uploadToS3 = function (file) {
     });
 };
 
+UserService.getUserUpvotedPost = function(userid) {
+  return userdb.getUserUpvotedPost(userid)    
+};  
+
 module.exports = UserService;
