@@ -41,7 +41,7 @@ CommentService.getComments = function (post_id) {
             }  
         })
         var comment = {};
-        var commentDetails = _.pick(uniq,'comment','id','name','profile_url','userid');
+        var commentDetails = _.pick(uniq,'comment','id','name','profile_image','userid');
         comment.comment = commentDetails;
         comment.reply = replyresponse;
         commentsArray.push(comment); 
@@ -52,6 +52,7 @@ CommentService.getComments = function (post_id) {
 };
 
 CommentService.getCommentsVote = function (post_id,response) {
+   console.log("response is",response);
    return commentDb.getCommentsVote(post_id)
      .then(function(result) {
         var mergedlist = _.map(response,function(item) {

@@ -18,8 +18,12 @@ PostController.create = function(user_id,product_name,title,url,files) {
   })
 };
 
-PostController.getPosts = function() {
-  return postService.getPosts();
+PostController.getPosts = function(userid) {
+  return postService.getPosts(userid)
+    .then(function(results) {
+       console.log("before getUser upvoted post");
+       return postService.getUserVotedPost(userid,results) 
+    })   
 };
 
 PostController.votePosts = function(user_id,post_id) {
