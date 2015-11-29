@@ -1,6 +1,7 @@
 var Promise = require('bluebird');
 var commentDb = require('../lib/comment/comment');
 var replyDb = require('../lib/reply/reply');
+var postDb = require('../lib/post/post');
 var _ = require('underscore');
 
 var CommentService = {};
@@ -61,7 +62,25 @@ CommentService.getCommentsVote = function (post_id,response) {
         console.log("merged list is",mergedlist);
         return mergedlist;  
      })  
- };  
+};
+
+CommentService.getPostImages = function (post_id,comments) {
+  return postDb.getPostImages(post_id)
+    .then(function(results) {
+       for(var i=0;i<results.length;i++) {
+          results[i].image_url = JSON.parse(JSON.parse(JSON.stringify(results[i].image_url)));
+          results[i].image_url = results[i].image_url[0];
+       }
+       console.log("image urls ---",results);
+       var post = {};
+       post.image_urls = results;
+       post.comments = comments;
+       return post;
+    })
+    .then(function(response) {
+       return response; 
+    })   
+};  
 
 CommentService.upvotePost = function (post_id) {
   return commentDb.upvotePost(post_id)

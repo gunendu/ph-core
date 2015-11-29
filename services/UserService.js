@@ -92,20 +92,16 @@ UserService.uploadToS3 = function (file) {
                 return fs.createReadStream(file.path)
             })
             .then(function (bodyStream) {
-                this.fileKey = "images/" + file.originalname;
-                this.params = {
-                    "Key": this.fileKey,
+                var params = {
+                    "Key": "images/" + file.originalname,
                     "ContentLength": file.size,
                     "Body": bodyStream
                 };
-                return;
-            })
-            .then(function () {
-                return UserService.putInS3Bucket(params)
+                return UserService.putInS3Bucket(params);
             })
             .then(function () {
                 var aclParams = {
-                    "Key": this.fileKey,
+                    "Key": "images/" + file.originalname,
                     "Bucket": s3Bucket_name,
                     ACL: 'public-read'
                 };
@@ -114,7 +110,7 @@ UserService.uploadToS3 = function (file) {
             .then(function () {
                 var urlParams = {
                     Bucket: s3Bucket_name,
-                    Key: fileKey
+                    Key: "images/" + file.originalname,
                 };
                 return UserService.getS3Url(urlParams)
             })
@@ -122,7 +118,7 @@ UserService.uploadToS3 = function (file) {
                 var filesSaved = {};
                 var response = {
                     "url": url,
-                    "fileName": this.fileKey,
+                    "fileName": "images/" + file.originalname,
                     "size": file.size
                 }
                 filesSaved["default"] = response;
