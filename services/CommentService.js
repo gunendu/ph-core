@@ -33,33 +33,34 @@ CommentService.getComments = function (post_id) {
         var replyresponse = _.map(response,function(res) {
             if(res.id == uniq.id) {
               var reply =  _.pick(res,'reply','reply_id','reply_name','profile_url','ruserid');
-              var replyfilter = _.pick(reply,function(res) {
-                 return !(_.isNull(res))
+              var replyfilter = _.omit(reply,function(value,key,object) {
+                 return _.isNull(value);
               });
               return replyfilter;  
             } else {
-              return {};
-            }  
+                return;
+            } 
         })
+        replyresponse = _.reject(replyresponse,function(res) {
+            return res==undefined || _.isEmpty(res[0]);
+        }) 
+                
         var comment = {};
         var commentDetails = _.pick(uniq,'comment','id','name','profile_image','userid');
         comment.comment = commentDetails;
         comment.reply = replyresponse;
         commentsArray.push(comment); 
-        console.log("replyresponse",JSON.stringify(commentsArray[1]));
-       })  
+        })  
        return commentsArray;       
     }) 
 };
 
 CommentService.getCommentsVote = function (post_id,response) {
-   console.log("response is",response);
    return commentDb.getCommentsVote(post_id)
      .then(function(result) {
         var mergedlist = _.map(response,function(item) {
           return _.extend(item, _.findWhere(result,{id: item.comment.id})) 
         });
-        console.log("merged list is",mergedlist);
         return mergedlist;  
      })  
 };
