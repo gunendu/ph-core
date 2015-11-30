@@ -69,11 +69,9 @@ CommentService.getPostImages = function (post_id,comments) {
     .then(function(results) {
        for(var i=0;i<results.length;i++) {
           results[i].image_url = JSON.parse(JSON.parse(JSON.stringify(results[i].image_url)));
-          results[i].image_url = results[i].image_url[0];
        }
-       console.log("image urls ---",results);
        var post = {};
-       post.image_urls = results;
+       post.image_urls = results[0].image_url;
        post.comments = comments;
        return post;
     })
