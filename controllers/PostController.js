@@ -2,14 +2,15 @@ var Promise = require('bluebird');
 var postService = require('../services/PostService');
 var userService = require('../services/UserService');
 var _  = require('underscore');
+var mapSeries = require('promise-map-series')
 
 var PostController = {};
 
 PostController.create = function(user_id,product_name,title,url,files) {
   console.log("title url",title,url);
-  return Promise.map(files,function(file) {
-     return userService.uploadToS3(file)
-     
+  return mapSeries(files,function(file) {
+     console.log("first iteration");
+     return userService.uploadToS3(file)     
   })
   .then(function(results) {
      console.log("results",results);
