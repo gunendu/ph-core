@@ -56,11 +56,19 @@ CommentService.getComments = function (post_id) {
 };
 
 CommentService.getCommentsVote = function (post_id,response) {
+   console.log("for response",JSON.stringify(response));
    return commentDb.getCommentsVote(post_id)
      .then(function(result) {
+        console.log("result is",JSON.stringify(result));
         var mergedlist = _.map(response,function(item) {
-          return _.extend(item, _.findWhere(result,{id: item.comment.id})) 
+          var temp = _.extend(item.comment, _.findWhere(result,{id: item.comment.id}));
+          if(!temp.votecount) {
+            temp.votecount = 0;
+            temp.flag = 0; 
+          }
+          return temp;  
         });
+        console.log("mergedlist",mergedlist);
         return mergedlist;  
      })  
 };
@@ -115,6 +123,20 @@ CommentService.voteComment = function (user_id,comment_id) {
   data.created_at = created_at;
   data.updated_at = updated_at;
   return commentDb.voteComment(data)      
+};
+
+CommentService.downVoteComment = function (user_id,comment_id) {
+  var data = {};
+  data.user_id = user_id;
+  data.comment_id= comment_id;
+  data.flag = 0;
+  var created_at = new Date().getTime();
+  var updated_at = new Date().getTime();
+  created_at =  moment(created_at).format('YYYY-MM-DD HH:mm:ss');
+  updated_at = moment(updated_at).format('YYYY-MM-DD HH:mm:ss');
+  data.created_at = created_at;
+  data.updated_at = updated_at;
+  return commentDb.downVoteComment(user_id,comment_id)   
 };  
 
 module.exports = CommentService;
