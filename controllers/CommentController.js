@@ -35,6 +35,10 @@ CommentController.voteComment = function(user_id,comment_id) {
 
 CommentController.downVote = function(user_id,comment_id) {
   return commentService.downVoteComment(user_id,comment_id);
-};  
+};
+
+CommentController.voteReply = function (user_id,comment_id,reply_id) {
+  return commentService.voteReply(user_id,comment_id,reply_id)
+}; 
 
 module.exports = CommentController;

@@ -59,7 +59,6 @@ CommentService.getCommentsVote = function (post_id,response) {
    console.log("for response",JSON.stringify(response));
    return commentDb.getCommentsVote(post_id)
      .then(function(result) {
-        console.log("result is",JSON.stringify(result));
         var mergedlist = _.map(response,function(item) {
           var temp = _.extend(item.comment, _.findWhere(result,{id: item.comment.id}));
           if(!temp.votecount) {
@@ -138,7 +137,22 @@ CommentService.downVoteComment = function (user_id,comment_id) {
   data.created_at = created_at;
   data.updated_at = updated_at;
   return commentDb.downVoteComment(user_id,comment_id)   
-};  
+};
 
+CommentService.voteReply = function (user_id,comment_id,reply_id) {
+  var data = {};
+  data.user_id = user_id;
+  data.comment_id= comment_id;
+  data.reply_id = reply_id;
+  data.flag = 1;
+  var created_at = new Date().getTime();
+  var updated_at = new Date().getTime();
+  created_at =  moment(created_at).format('YYYY-MM-DD HH:mm:ss');
+  updated_at = moment(updated_at).format('YYYY-MM-DD HH:mm:ss');
+  data.created_at = created_at;
+  data.updated_at = updated_at;
+  return commentDb.voteReply(data)   
+};
+     
 module.exports = CommentService;
 
