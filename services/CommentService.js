@@ -42,15 +42,15 @@ CommentService.getComments = function (post_id) {
             } 
         })
         replyresponse = _.reject(replyresponse,function(res) {
-            return res==undefined || _.isEmpty(res[0]);
+            return res==undefined || _.isEmpty(res);
         }) 
-                
         var comment = {};
         var commentDetails = _.pick(uniq,'comment','id','name','profile_image','userid');
         comment.comment = commentDetails;
         comment.reply = replyresponse;
-        commentsArray.push(comment); 
-        })  
+        commentsArray.push(comment);
+        })
+        console.log("commentsArray",commentsArray);  
        return commentsArray;       
     }) 
 };
@@ -66,6 +66,7 @@ CommentService.getCommentsVote = function (post_id,response) {
             temp.votecount = 0;
             temp.flag = 0; 
           }
+          temp.reply = item.reply;
           return temp;  
         });
         console.log("mergedlist",mergedlist);
