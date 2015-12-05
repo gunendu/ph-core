@@ -21,13 +21,14 @@ PostService.createPost = function (user_id,product_name,title,url,image_urls) {
     return postDb.create(post)
 };
 
-PostService.getPosts = function (userid) {
+PostService.getPosts = function () {
   return postDb.get()
     .then(function(results) {
        console.log("results length",results,results.length);
        for(var i=0;i<results.length;i++) {
           results[i].image_url = JSON.parse(JSON.parse(JSON.stringify(results[i].image_url)));
        }
+       console.log("before results");
        return results;  
     })   
 };
