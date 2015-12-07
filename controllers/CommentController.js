@@ -14,6 +14,9 @@ CommentController.getComments= function(post_id) {
     })
     .then(function(response) {
        return commentService.getPostImages(post_id,response)
+    })
+    .then(function(response) {
+       return commentService.userVotedPost(post_id,response) 
     })  
 };
 

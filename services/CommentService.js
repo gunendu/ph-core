@@ -87,6 +87,14 @@ CommentService.getPostImages = function (post_id,comments) {
     .then(function(response) {
        return response; 
     })   
+};
+
+CommentService.userVotedPost = function (post_id,response) {
+  return commentDb.userVotedPost(post_id)
+    .then(function(users) {
+       response.users = users;
+       return response; 
+    })  
 };  
 
 CommentService.upvotePost = function (post_id) {
