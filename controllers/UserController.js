@@ -1,6 +1,7 @@
 var Promise = require('bluebird');
 var userService = require('../services/UserService');
 var userdb = require('../lib/user/user');
+var _ = require('underscore');
 
 var UserController = {};
 
@@ -18,6 +19,15 @@ UserController.saveUser = function(username,email,name,profile_url) {
 
 UserController.getUserUpvotedPost = function(userid) {
   return userService.getUserUpvotedPost(userid) 
+};
+
+UserController.getUserNames = function(prefix) {
+  return userdb.getUserNames(prefix)
+    .then(function(users) {
+       var response = {};
+       response.users = users;
+       return response;    
+    })  
 };  
 
 module.exports = UserController;
