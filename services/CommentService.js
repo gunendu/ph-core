@@ -3,6 +3,7 @@ var commentDb = require('../lib/comment/comment');
 var replyDb = require('../lib/reply/reply');
 var postDb = require('../lib/post/post');
 var _ = require('underscore');
+var emailService = require('./EmailService');
 
 var CommentService = {};
 
@@ -19,7 +20,19 @@ CommentService.createComment = function (post_id,comment,user_id) {
     data.updated_at = updated_at;
     
     return commentDb.create(data)
+      .then(function() {
+         var usernames = findWord(comment);
+         console.log("username is",username); 
+         return emailService.sendEmail()
+      }) 
 };
+
+function findWord(str) {
+    var str = str.split(' ');
+    return _.filter(str,function(w) {
+      return w[0]=="@";
+    })
+}
 
 CommentService.getComments = function (post_id) {
   var uniqComments;
@@ -50,13 +63,11 @@ CommentService.getComments = function (post_id) {
         comment.reply = replyresponse;
         commentsArray.push(comment);
         })
-        console.log("commentsArray",commentsArray);  
-       return commentsArray;       
+        return commentsArray;       
     }) 
 };
 
 CommentService.getCommentsVote = function (post_id,response) {
-   console.log("for response",JSON.stringify(response));
    return commentDb.getCommentsVote(post_id)
      .then(function(result) {
         var mergedlist = _.map(response,function(item) {
@@ -68,7 +79,6 @@ CommentService.getCommentsVote = function (post_id,response) {
           temp.reply = item.reply;
           return temp;  
         });
-        console.log("mergedlist",mergedlist);
         return mergedlist;  
      })  
 };

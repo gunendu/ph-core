@@ -5,7 +5,6 @@ var _ = require('underscore');
 var PostService = {};
 
 PostService.createPost = function (user_id,product_name,title,url,image_urls) {
-   console.log("save post is called",image_urls);
     var post = {};
     post.product_name = product_name;
     post.title = title;
@@ -24,23 +23,19 @@ PostService.createPost = function (user_id,product_name,title,url,image_urls) {
 PostService.getPosts = function () {
   return postDb.get()
     .then(function(results) {
-       console.log("results length",results,results.length);
        for(var i=0;i<results.length;i++) {
           results[i].image_url = JSON.parse(JSON.parse(JSON.stringify(results[i].image_url)));
        }
-       console.log("before results");
        return results;  
     })   
 };
 
 PostService.getUserVotedPost = function (userid,posts) {
-  console.log("getUserUpvotedPost is called");
   return postDb.getUserVotedPost(userid)
     .then(function(result) {
       var mergedlist = _.map(posts,function(item) {
          return _.extend(item, _.findWhere(result,{post_id: item.id})) 
       });
-      console.log("merged list is",mergedlist);
       return mergedlist;      
     })  
 };  
