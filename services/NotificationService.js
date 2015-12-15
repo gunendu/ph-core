@@ -7,7 +7,7 @@ Horntell.app.init(config.horntell.hornokpleasekey, config.horntell.hornokpleases
 
 var NotificationService = {};
 
-NotificationService.createProfile = function(hash,username,name) {
+NotificationService.createProfile = function(hash,username,name,result) {
   return new Promise(function(resolve,reject) {
     var auth = 'Basic ' + new Buffer(config.horntell.hornokpleasekey+ ':' + config.horntell.hornokpleasesecret).toString('base64');
     var data = {
@@ -27,16 +27,16 @@ NotificationService.createProfile = function(hash,username,name) {
      },function(error,response,body) {
         if(!error) {
           console.log("response is",error,response.body);
-          resolve() 
+          resolve(result) 
         } else {
           console.log("error creating profile",error);
-          resolve();
+          resolve(result);
         }     
     })   
   })  
 };
 
-NotificationService.createHorns = function(hash) {
+/*NotificationService.createHorns = function(hash) {
   return new Promise(function(resolve,reject) {
     var auth = 'Basic ' + new Buffer(config.horntell.hornokpleasekey+ ':' + config.horntell.hornokpleasesecret).toString('base64');
     var data = {
@@ -62,17 +62,15 @@ NotificationService.createHorns = function(hash) {
         }  
     })  
   })  
-};
+};*/
 
-NotificationService.createHorns = function() {
-    console.log("createHorns is called");
-    Horntell.app.init(config.horntell.hornokpleasekey, config.horntell.hornokpleasesecret);
-    Horntell.horn.toProfile('75e633ef22a14df74e5618cbf681ffa257c084b81074ffb692e73417218c2ce1',{
+NotificationService.createHorns = function(hash) {
+    console.log("createHorns is called",hash);
+    Horntell.horn.toProfile(hash,{
       format: 'link',
       type: 'info',
       bubble: true,
       text: 'Welcome campaign was fired.',
-      html: '<strong>Welcome</strong> campaign was fired.',
       link: 'http://startuphunts.com',
       new_window: true 
     }).then(successCallback,errorCallback) 
@@ -86,7 +84,7 @@ var errorCallback = function(error) {
   console.log("error creating horns",error);
 };  
 
-NotificationService.getProfile = function() {
+/*NotificationService.getProfile = function(hash) {
   return new Promise(function(resolve,reject) {
     var auth = 'Basic ' + new Buffer(config.horntell.hornokpleasekey+ ':' + config.horntell.hornokpleasesecret).toString('base64');
     request.get({
@@ -103,7 +101,12 @@ NotificationService.getProfile = function() {
           }          
      })           
     })  
-};
+};*/
+
+NotificationService.getProfile = function(hash) {
+  Horntell.profile.find(hash)
+  .then(successCallback,errorCallback)
+};  
 
 var error = function(error) {
       if(error instanceof Horntell.errors.ForbiddenError) {

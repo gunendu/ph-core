@@ -12,7 +12,7 @@ UserController.saveUser = function(username,email,name,profile_url) {
    var hash = Horntell.app.hash(username);
    return userService.saveUser(username,email,name,profile_url,hash)
      .then(function(result) {
-        return notificationservice.createProfile(hash,username,name)        
+        return notificationservice.createProfile(hash,username,name,result)        
      })  
      .catch(function(e) {
         console.log(e.stack);

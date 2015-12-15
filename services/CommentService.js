@@ -6,6 +6,7 @@ var _ = require('underscore');
 var emailService = require('./EmailService');
 var notificationservice = require('./NotificationService');
 var userdb = require('../lib/user/user.js');
+var async = require('async');
 
 var CommentService = {};
 
@@ -22,16 +23,24 @@ CommentService.createComment = function (post_id,comment,user_id) {
     data.updated_at = updated_at;
     
     return commentDb.create(data)
-    var names = findWord(comment);
-    console.log("username is",names); 
-    return userdb.getUserNames(names)
-      .then(function(users) {
-        async.each(users,function(user,callback) {
-          emailService.sendEmail(user.email)
-          notificationservice.createHorns(user.uid) 
-        })  
-      })  
-   
+      .then(function(data) {
+        this.response = data;
+        var names = findWord(comment);
+        return userdb.getNames(names)
+          .then(function(users) {
+            async.each(users,function(user,callback) {
+              emailService.sendEmail(user.username)
+              notificationservice.createHorns(user.uid) 
+              return this.response;
+            },function(err) {
+              if(!err) {
+                console.log("success sending email or push notification");
+              } else {
+                console.log("failure sending email or push notification");
+              }  
+            })  
+          })
+      })   
 };
 
 function findWord(str) {
