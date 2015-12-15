@@ -20,11 +20,11 @@ var s3Bucket = new AWS.S3({
 
 var UserService = {};
 
-UserService.saveUser = function (username,email,name,id) {
+UserService.saveUser = function (username,email,name,profile_url,hash) {
    var created_at = new Date().getTime();
    created_at =  moment(created_at).format('YYYY-MM-DD HH:mm:ss');
    var updated_at = moment(updated_at).format('YYYY-MM-DD HH:mm:ss');
-   return userdb.create(username,email,name,id,created_at,updated_at)
+   return userdb.create(username,email,name,profile_url,created_at,updated_at,hash)
 };
 
 function getHashedPassword(password) {
@@ -211,7 +211,6 @@ UserService.uploadToS3 = function (file) {
                     "fileName": "images/scaledKey" + file.originalname,
                     "size": file.size
                 }
-                console.log("response is",response); 
                 filesSaved["scaled"] = response;
                 filesSaved["media_id"] = file.originalname.split('.')[0];
                 resolve(filesSaved);
@@ -223,11 +222,9 @@ UserService.uploadToS3 = function (file) {
 };
 
 UserService.getImageSize = function (filename) {
-  console.log("image filename is",filename);
   return new Promise(function(resolve,reject) {
     imageSize(filename,function(err,size) {
       if(!err) {
-        console.log("size is",size.height);
    	    resolve(size); 
       } else {
         console.log("error is",err);

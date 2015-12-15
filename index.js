@@ -6,6 +6,10 @@ PhApi.Controllers = {
     CommentController: require('./controllers/CommentController')
 };
 
+PhApi.Services = {
+    NotificationService: require('./services/NotificationService')   
+};  
+
 PhApi.Errors = {
     Base: require('./lib/errors/base'),
     Object: require('./lib/errors/object'),

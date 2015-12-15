@@ -1,17 +1,19 @@
 var Promise = require('bluebird');
 var userService = require('../services/UserService');
+var notificationservice = require('../services/NotificationService');
 var userdb = require('../lib/user/user');
 var _ = require('underscore');
+var Horntell = require('horntell');
 
 var UserController = {};
 
 UserController.saveUser = function(username,email,name,profile_url) {
    console.log("save user is called",userService);
-   return userService.saveUser(username,email,name,profile_url)
+   var hash = Horntell.app.hash(username);
+   return userService.saveUser(username,email,name,profile_url,hash)
      .then(function(result) {
-        console.log("after save",result);
-        return result;
-     })
+        return notificationservice.createProfile(hash,username,name)        
+     })  
      .catch(function(e) {
         console.log(e.stack);
      })  

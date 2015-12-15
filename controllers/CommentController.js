@@ -1,10 +1,18 @@
 var Promise = require('bluebird');
 var commentService = require('../services/CommentService');
+var notificationService = require('../services/NotificationService');
 
 var CommentController = {};
 
 CommentController.create = function(post_id,comment,user_id) {
-  return commentService.createComment(post_id,comment,user_id);      
+  return commentService.createComment(post_id,comment,user_id)
+    .then(function(response) {
+      console.log("before create horns");
+      return notificationService.createHorns()
+    })
+    .catch(function(err) {
+      console.log("error create comment",err);  
+    })  
 };
 
 CommentController.getComments= function(post_id) {

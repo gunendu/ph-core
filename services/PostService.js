@@ -55,7 +55,6 @@ PostService.upvotePost = function (user_id,post_id) {
 };
 
 PostService.downvotePost = function (user_id,post_id) {
-  console.log("downvote is called",user_id,post_id);
   var data = {};
   data.user_id = user_id;
   data.post_id = post_id;

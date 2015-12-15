@@ -4,6 +4,8 @@ var replyDb = require('../lib/reply/reply');
 var postDb = require('../lib/post/post');
 var _ = require('underscore');
 var emailService = require('./EmailService');
+var notificationservice = require('./NotificationService');
+var userdb = require('../lib/user/user.js');
 
 var CommentService = {};
 
@@ -20,11 +22,16 @@ CommentService.createComment = function (post_id,comment,user_id) {
     data.updated_at = updated_at;
     
     return commentDb.create(data)
-      .then(function() {
-         var usernames = findWord(comment);
-         console.log("username is",username); 
-         return emailService.sendEmail()
-      }) 
+    var names = findWord(comment);
+    console.log("username is",names); 
+    return userdb.getUserNames(names)
+      .then(function(users) {
+        async.each(users,function(user,callback) {
+          emailService.sendEmail(user.email)
+          notificationservice.createHorns(user.uid) 
+        })  
+      })  
+   
 };
 
 function findWord(str) {
