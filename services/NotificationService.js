@@ -7,8 +7,9 @@ Horntell.app.init(config.horntell.hornokpleasekey, config.horntell.hornokpleases
 
 var NotificationService = {};
 
-NotificationService.createProfile = function(hash,username,name,result) {
+NotificationService.createProfile = function(username,name,result) {
   return new Promise(function(resolve,reject) {
+    var hash = Horntell.app.hash(username);
     var auth = 'Basic ' + new Buffer(config.horntell.hornokpleasekey+ ':' + config.horntell.hornokpleasesecret).toString('base64');
     var data = {
       uid: hash,
@@ -27,9 +28,11 @@ NotificationService.createProfile = function(hash,username,name,result) {
      },function(error,response,body) {
         if(!error) {
           console.log("response is",error,response.body);
+          result.hash = hash;
           resolve(result) 
         } else {
           console.log("error creating profile",error);
+          result.hash = hash;
           resolve(result);
         }     
     })   
